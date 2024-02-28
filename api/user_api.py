@@ -39,11 +39,19 @@ class Signup(Resource):
         gender = request.form.get('gender', None)
         avater = request.form.get('avater', None)
 
+        existing_user = User.query.filter_by(email=email)
+        if existing_user:
+            return make_response(jsonify({
+                'status': False,
+                'message': f'User with email {email} already exist'
+            }))
+
+
         info_dict = {'username': username,
         'firstname': firstname,
         'lastname': lastname,
         'email': email,
-        'password': password,
+        #'password': password,
         'gender': gender,
         'avater': avater}
 
@@ -55,15 +63,16 @@ class Signup(Resource):
         
         try:
             new_user = User(**info_dict)
+            new_user.hash_password(password)
             db.session.add(new_user)
             db.session.commit()
 
-            make_response(jsonify({
+            return make_response(jsonify({
                 'status': True,
                 'message': f'Created user {new_user.username} successfully',
             }))
         except Exception as e:
-            make_response(jsonify({
+            return make_response(jsonify({
                 'status': False,
                 'message': 'error creating user',
                 'error': e
@@ -104,7 +113,7 @@ class User(Resource):
                     setattr(user, i, j)
             db.session.commit()
         except Exception as e:
-            make_response(jsonify({
+            return make_response(jsonify({
                 'status': False,
                 'message': 'error creating user',
                 'error': e
@@ -116,7 +125,7 @@ class User(Resource):
         }), 200)
 
 
-class Users:
+class Users(Resource):
     '''Api endpoint to access all users
     Endpoint => /api/users/<int:user_id>'''
 

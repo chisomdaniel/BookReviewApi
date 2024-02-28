@@ -14,15 +14,14 @@ class User(db.Model, BaseModel):
     firstname = db.Column(db.String(20), nullable=False)
     lastname = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(30), nullable=False, unique=True)
-    password = db.Column(db.String(50), nullable=False)
+    password = db.Column(db.String(250), nullable=True)
     gender = db.Column(db.String(10), nullable=False)
     avater = db.Column(db.String(50), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
-    reviews = db.relationship('Review', backref='book', lazy=True)
+    reviews = db.relationship('Review', backref='user', lazy=True)
     books = db.relationship('Book', backref='user', lazy=True)
 
-    @password.setter
     def hash_password(self, password):
         hashed_pw = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         self.password = hashed_pw

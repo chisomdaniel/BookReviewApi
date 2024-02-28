@@ -14,8 +14,10 @@ with app.app_context():
     db.drop_all()
     db.create_all()
 
-    user1 = User(username='Dannyboy', firstname='Daniel', lastname='Chinweze', email='dannyboy@gmail.com', password='daniel123', gender='Male', avater='img-dog_paint.png')
-    user2 = User(username='Chisom', firstname='Chisom', lastname='Chinweze', email='chisomchisom@gmail.com', password='chisom123', gender='Male', avater='img-cat_paint.png')
+    user1 = User(username='Dannyboy', firstname='Daniel', lastname='Chinweze', email='dannyboy@gmail.com', gender='Male', avater='img-dog_paint.png')
+    user2 = User(username='Chisom', firstname='Chisom', lastname='Chinweze', email='chisomchisom@gmail.com', gender='Male', avater='img-cat_paint.png')
+    user1.hash_password('daniel123')
+    user2.hash_password('chisom123')
 
     book1 = Book(name='Harry Potter', author='J. k. Rowling', edition='4th Edition',
                 image='img-0513-2023', description='Story of 3 magicians living their best life in the world', user=user1)
