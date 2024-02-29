@@ -26,3 +26,4 @@ class Book(db.Model, BaseModel):
     # handling relationships
     reviews = db.relationship('Review', backref='book', lazy=True)
     genre = db.relationship('Genre', secondary=book_genre, backref='books')
+

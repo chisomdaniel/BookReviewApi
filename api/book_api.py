@@ -16,7 +16,13 @@ class BooksResource(Resource):
         or all books if `id` is None'''
         if id == None:
             books = Book.query.all()
-            book_list = [book.serialize() for book in books]
+            #book_list = [book.serialize() for book in books]
+            book_list = []
+            for book in books:
+                reviews = [f'/api/book/{book.id}/review/{review.id}' for review in book.reviews]
+                book_dict = book.serialize()
+                book_dict.update({'reviews': reviews})
+                book_list.append(book_dict)
 
             return make_response(jsonify(book_list), 200)
         
@@ -24,7 +30,6 @@ class BooksResource(Resource):
         reviews = [f'/api/book/{book.id}/review/{review.id}' for review in book.reviews]
         book_serialized = book.serialize()
         book_serialized.update({'reviews': reviews})
-        # add the user that posted it
 
         return make_response(jsonify(book_serialized), 200)
 
@@ -56,4 +61,5 @@ class BooksResource(Resource):
             'Book name': name,
             'Author': author
         }), 201)
+
 

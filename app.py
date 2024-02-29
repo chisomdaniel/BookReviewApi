@@ -7,16 +7,18 @@ from flask_admin.contrib.sqla import ModelView
 from models import db
 from dotenv import load_dotenv
 from flask_jwt_extended import JWTManager
+import os
 
 
 load_dotenv()
 
-key = '23578g29h293r8h29402490'
+KEY = os.getenv('APP_KEY')
+DATABASE_URI= os.getenv('SQLALCHEMY_DATABASE_URI')
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://daniel:ezewnihc@localhost/book_log'
-app.config['SECRET_KEY'] = key
-app.config['JWT_SECRET_KEY'] = key
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
+app.config['SECRET_KEY'] = KEY
+app.config['JWT_SECRET_KEY'] = KEY
 
 api.init_app(app)
 db.init_app(app)
@@ -35,6 +37,10 @@ with app.app_context():
     admin.add_view(ModelView(Review, db.session))
     admin.add_view(ModelView(Genre, db.session))
     admin.add_view(ModelView(User, db.session))
+
+    @jwt.user_identity_loader
+    def user_identity_lookup(user):
+        return user.id
 
     @jwt.user_lookup_loader
     def user_lookup_callback(_jwt_header, jwt_data):

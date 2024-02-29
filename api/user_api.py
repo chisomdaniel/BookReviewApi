@@ -14,7 +14,7 @@ class Login(Resource):
         email = request.form.get('email', None)
         password = request.form.get('password', None)
         user = User.query.filter_by(email=email).one_or_none()
-        if not user or user.check_pasword(password):
+        if not user or not user.check_pasword(password):
             return make_response(jsonify({
                 'logged_in': False,
                 'message': 'Invalid Username or Password'
@@ -39,11 +39,17 @@ class Signup(Resource):
         gender = request.form.get('gender', None)
         avater = request.form.get('avater', None)
 
-        existing_user = User.query.filter_by(email=email)
+        existing_user = User.query.filter_by(email=email).one_or_none()
         if existing_user:
             return make_response(jsonify({
                 'status': False,
                 'message': f'User with email {email} already exist'
+            }))
+        existing_username = User.query.filter_by(username=username).one_or_none()
+        if existing_username:
+            return make_response(jsonify({
+                'status': False,
+                'message': f'Username "{username}" already taken, please chose a different username'
             }))
 
 
@@ -51,11 +57,11 @@ class Signup(Resource):
         'firstname': firstname,
         'lastname': lastname,
         'email': email,
-        #'password': password,
+        'password': password,
         'gender': gender,
         'avater': avater}
 
-        if None in info_dict.keys():
+        if None in info_dict.values():
             return make_response(jsonify({
                 'status': False,
                 'message': 'Incomplete information provided'
@@ -79,7 +85,7 @@ class Signup(Resource):
             }))
 
 
-class User(Resource):
+class Profile(Resource):
     '''the user api endpoint, for the user profile
     Endpoint =>  /api/me
     '''
@@ -108,8 +114,11 @@ class User(Resource):
         
         try:
             user = current_user
-            for i, j in info_dict.keys():
+            for i, j in info_dict.items():
                 if j is not None:
+                    if i == 'password':
+                        user.hash_password(j)
+                        continue
                     setattr(user, i, j)
             db.session.commit()
         except Exception as e:
@@ -140,5 +149,3 @@ class Users(Resource):
         
         user = User.query.get_or_404(user_id, 'No user found with the specified id')
         return make_response(jsonify(user.serialize()), 200)
-
-
