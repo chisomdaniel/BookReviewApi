@@ -12,7 +12,7 @@
 8. [Environmental Variables](#⚙️-environmental-variables)
 9. [Installation](#🛠️-installation)
 10. [Running the Project](#▶️-running-the-project)
-11. [Deployment](#🚀-deployment)
+11. [Deployment](#-deployment)
 12. [Contributing](#🤝-contributing)
 13. [Author](#👤-author)
 
