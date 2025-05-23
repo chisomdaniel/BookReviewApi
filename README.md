@@ -2,19 +2,19 @@
 > Backend service to power an open community for reviewing books
 
 ## Table of Contents
-1. [About the Project](#📘-about-the-project)
-2. [Tech Stack](#🧰-tech-stack)
-3. [Features](#🌟-features)
-4. [Architecture](#🧱-architecture)
-5. [Folder Structure](#📂-folder-structure)
-6. [API Documentation](#📡-api-documentation)
-7. [Authentication](#🔐-authentication)
-8. [Environmental Variables](#⚙️-environmental-variables)
-9. [Installation](#🛠️-installation)
-10. [Running the Project](#▶️-running-the-project)
+1. [About the Project](#-about-the-project)
+2. [Tech Stack](#-tech-stack)
+3. [Features](#-features)
+4. [Architecture](#-architecture)
+5. [Folder Structure](#-folder-structure)
+6. [API Documentation](#-api-documentation)
+7. [Authentication](#-authentication)
+8. [Environmental Variables](#-environmental-variables)
+9. [Installation](#-installation)
+10. [Running the Project](#-running-the-project)
 11. [Deployment](#-deployment)
-12. [Contributing](#🤝-contributing)
-13. [Author](#👤-author)
+12. [Contributing](#-contributing)
+13. [Author](#-author)
 
 
 ## 📘 About the Project
